@@ -1,0 +1,1066 @@
+None selected 
+
+Skip to content
+Using Gmail with screen readers
+in:sent 
+Enable desktop notifications for Gmail.
+   OK  No thanks
+18 of 80
+(no subject)
+
+LINGADAHAL SHASI KUMAR <shashikumar26704@gmail.com>
+Attachments
+Thu, Jul 30, 12:40 PM
+to Aravind
+
+
+ One attachment
+  •  Scanned by Gmail
+
+摘要
+翻译
+扩写
+重写
+解释说明
+语法
+问答
+解释代码
+Explain
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threshing Ledger — Daily Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600;700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --soil-dark:#2B2013;
+    --soil-darker:#1C140C;
+    --wheat-gold:#D9A73B;
+    --wheat-gold-light:#E8C368;
+    --crop-green:#4C6B3F;
+    --crop-green-light:#6B8F58;
+    --diesel-rust:#B5502F;
+    --paper-cream:#F3ECDA;
+    --paper-cream-dark:#E6DCC2;
+    --ink:#241A10;
+    --ink-soft:#6b5a44;
+    --white:#FFF9EE;
+    --font-display:'Zilla Slab', serif;
+    --font-body:'Work Sans', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+    --radius:14px;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:var(--font-body);
+    background:var(--soil-dark);
+    color:var(--paper-cream);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+  a{ color:var(--wheat-gold-light); }
+
+  /* ---------- fixed decorative background ---------- */
+  .bg-pattern{
+    position:fixed; inset:0; width:100%; height:100%;
+    z-index:0; opacity:0.55; pointer-events:none;
+  }
+  .bg-vignette{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:radial-gradient(ellipse at 20% 0%, rgba(217,167,59,0.10), transparent 55%),
+               radial-gradient(ellipse at 100% 100%, rgba(76,107,63,0.14), transparent 60%),
+               linear-gradient(180deg, var(--soil-darker) 0%, var(--soil-dark) 40%);
+  }
+
+  /* ---------- app shell ---------- */
+  #app-shell{ position:relative; z-index:1; display:flex; min-height:100vh; }
+  #app-shell.loading #main-content{ opacity:0; }
+  #main-content{ transition:opacity 0.4s ease; }
+
+  .sidebar{
+    width:240px; flex-shrink:0; background:linear-gradient(180deg, var(--soil-darker), #241a10);
+    border-right:1px solid rgba(217,167,59,0.18);
+    display:flex; flex-direction:column; padding:28px 18px;
+    position:sticky; top:0; height:100vh;
+  }
+  .brand{ display:flex; flex-direction:column; gap:2px; margin-bottom:34px; padding:0 6px; }
+  .brand-mark{ font-family:var(--font-display); font-weight:700; font-size:1.5rem; color:var(--wheat-gold-light); letter-spacing:0.02em; }
+  .brand-sub{ font-family:var(--font-mono); font-size:0.68rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.14em; }
+
+  .nav-link{
+    display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:10px;
+    color:var(--paper-cream-dark); text-decoration:none; font-weight:500; font-size:0.94rem;
+    cursor:pointer; margin-bottom:4px; border:1px solid transparent; background:none; width:100%; text-align:left;
+    font-family:var(--font-body);
+  }
+  .nav-link svg{ width:19px; height:19px; flex-shrink:0; opacity:0.85; }
+  .nav-link:hover{ background:rgba(217,167,59,0.08); }
+  .nav-link.active{ background:rgba(217,167,59,0.14); border-color:rgba(217,167,59,0.35); color:var(--wheat-gold-light); }
+  .nav-link.active svg{ opacity:1; }
+  .sidebar-foot{ margin-top:auto; padding:12px 6px; font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-soft); line-height:1.6; }
+
+  main#main-content{ flex:1; min-width:0; padding:36px 40px 100px; }
+  .page{ display:none; animation:fadeIn 0.35s ease; }
+  .page.active{ display:block; }
+  @keyframes fadeIn{ from{ opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  .page-header{ margin-bottom:26px; }
+  .page-header h1{ font-family:var(--font-display); font-size:2.1rem; font-weight:700; color:var(--white); margin:0 0 6px; }
+  .page-header p{ color:var(--ink-soft); font-size:0.98rem; margin:0; max-width:560px; }
+  .eyebrow{ font-family:var(--font-mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.16em; color:var(--wheat-gold); margin-bottom:8px; display:block; }
+
+  /* ---------- hero (dashboard) ---------- */
+  .hero{
+    position:relative; overflow:hidden; border-radius:20px; padding:32px 34px;
+    background:linear-gradient(120deg, rgba(76,107,63,0.22), rgba(28,20,12,0.4));
+    border:1px solid rgba(217,167,59,0.2); margin-bottom:28px;
+  }
+  .hero-machine{ position:absolute; right:-10px; bottom:-10px; width:300px; height:160px; }
+  .hero-content{ position:relative; z-index:1; max-width:60%; }
+  .hero h2{ font-family:var(--font-display); font-size:1.8rem; margin:0 0 8px; color:var(--white); }
+  .hero p{ color:var(--paper-cream-dark); margin:0 0 18px; line-height:1.5; }
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:0.92rem; border-radius:10px; border:none;
+    padding:12px 22px; cursor:pointer; transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn:active{ transform:scale(0.97); }
+  .btn-primary{ background:var(--wheat-gold); color:var(--soil-darker); box-shadow:0 4px 14px rgba(217,167,59,0.25); }
+  .btn-primary:hover{ background:var(--wheat-gold-light); }
+  .btn-ghost{ background:transparent; border:1px solid rgba(243,236,218,0.3); color:var(--paper-cream); }
+  .btn-ghost:hover{ border-color:var(--wheat-gold); color:var(--wheat-gold-light); }
+  .btn-small{ font-size:0.78rem; padding:7px 13px; border-radius:8px; border:1px solid rgba(36,26,16,0.15); background:transparent; color:var(--ink-soft); cursor:pointer; font-family:var(--font-body); font-weight:600; }
+  .btn-small:hover{ background:rgba(36,26,16,0.06); }
+  .btn-danger{ color:var(--diesel-rust); border-color:rgba(181,80,47,0.35); }
+  .btn-danger:hover{ background:rgba(181,80,47,0.08); }
+  .btn-icon-danger{ background:none; border:none; color:var(--diesel-rust); font-size:1rem; cursor:pointer; padding:6px 10px; border-radius:8px; }
+  .btn-icon-danger:hover{ background:rgba(181,80,47,0.12); }
+
+  /* ---------- stat cards ---------- */
+  .stat-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(170px,1fr)); gap:14px; margin-bottom:30px; }
+  .stat-card{
+    background:rgba(243,236,218,0.06); border:1px solid rgba(243,236,218,0.1); border-radius:var(--radius);
+    padding:18px 20px; display:flex; flex-direction:column; gap:6px;
+  }
+  .stat-label{ font-size:0.78rem; color:var(--ink-soft); font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.06em; }
+  .stat-value{ font-family:var(--font-mono); font-size:1.4rem; font-weight:600; color:var(--white); }
+  .stat-card.gold .stat-value{ color:var(--wheat-gold-light); }
+  .stat-card.green .stat-value{ color:var(--crop-green-light); }
+  .stat-card.rust .stat-value{ color:#e08b6b; }
+
+  /* ---------- mini ticket (dashboard recent) ---------- */
+  #dashboard-recent h3{ font-family:var(--font-display); color:var(--white); font-size:1.2rem; margin:0 0 14px; }
+  .mini-ticket{
+    display:flex; flex-wrap:wrap; align-items:center; gap:16px; padding:14px 18px; border-radius:12px;
+    background:rgba(243,236,218,0.05); border:1px solid rgba(243,236,218,0.08); margin-bottom:8px; cursor:pointer;
+  }
+  .mini-ticket:hover{ border-color:rgba(217,167,59,0.3); }
+  .mini-date{ font-family:var(--font-mono); font-size:0.82rem; color:var(--paper-cream-dark); min-width:150px; }
+  .mini-figure{ font-family:var(--font-mono); font-size:0.85rem; color:var(--paper-cream); }
+  .mini-figure.gold{ color:var(--wheat-gold-light); }
+  .mini-figure.green{ color:var(--crop-green-light); }
+
+  /* ---------- cards / paper surfaces (forms, lists) ---------- */
+  .paper-card{
+    background:var(--paper-cream); color:var(--ink); border-radius:20px; padding:28px 30px; margin-bottom:24px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.25);
+  }
+  .paper-card h3{ font-family:var(--font-display); margin-top:0; }
+
+  .field{ margin-bottom:18px; }
+  .field label{ display:block; font-size:0.82rem; font-weight:600; color:var(--ink-soft); margin-bottom:6px; font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.04em; }
+  .field input[type="date"], .field input[type="number"], .field input[type="text"]{
+    width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid var(--paper-cream-dark);
+    background:var(--white); font-size:1rem; font-family:var(--font-mono); color:var(--ink);
+  }
+  .field input:focus{ outline:2px solid var(--crop-green); outline-offset:1px; border-color:var(--crop-green); }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+  .labour-chip{ display:inline-flex; align-items:center; gap:8px; padding:9px 14px; border-radius:20px; background:var(--white); border:1.5px solid var(--paper-cream-dark); margin:0 8px 8px 0; cursor:pointer; font-size:0.9rem; }
+  .labour-chip:has(input:checked){ background:var(--crop-green); border-color:var(--crop-green); color:var(--white); }
+  .labour-chip input{ accent-color:var(--crop-green); }
+  #entry-labour-list{ margin-bottom:6px; }
+
+  .preview-panel{ background:var(--soil-dark); color:var(--paper-cream); border-radius:16px; padding:22px 24px; margin-top:22px; }
+  .preview-panel h4{ font-family:var(--font-display); margin:0 0 14px; color:var(--wheat-gold-light); font-size:1.05rem; }
+  .preview-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:14px; }
+  .preview-item{ display:flex; flex-direction:column; gap:4px; }
+  .preview-item .l{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); font-family:var(--font-mono); }
+  .preview-item .v{ font-family:var(--font-mono); font-size:1.15rem; font-weight:600; }
+  .preview-item.owner .v{ color:var(--wheat-gold-light); }
+  .preview-item.labour .v{ color:var(--crop-green-light); }
+  .preview-warning{ margin-top:14px; padding:10px 14px; border-radius:8px; background:rgba(181,80,47,0.18); color:#f0b499; font-size:0.85rem; }
+
+  .empty-hint{ color:var(--ink-soft); font-size:0.95rem; line-height:1.6; }
+  #dashboard-empty.hidden, .hidden{ display:none !important; }
+
+  /* ---------- labours list ---------- */
+  .add-labour-form{ display:flex; gap:10px; margin-bottom:22px; }
+  .add-labour-form input{ flex:1; }
+  .labour-row{ display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-radius:12px; background:var(--white); border:1px solid var(--paper-cream-dark); margin-bottom:8px; }
+  .labour-info{ display:flex; flex-direction:column; gap:3px; }
+  .labour-name{ font-weight:600; }
+  .labour-meta{ font-size:0.82rem; color:var(--ink-soft); font-family:var(--font-mono); }
+
+  /* ---------- history ---------- */
+  .history-toolbar{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; gap:12px; flex-wrap:wrap; }
+  .history-toolbar select{ padding:9px 12px; border-radius:8px; border:1.5px solid var(--paper-cream-dark); font-family:var(--font-mono); background:var(--white); color:var(--ink); }
+  .history-card{ background:var(--paper-cream); border-radius:16px; padding:18px 22px; margin-bottom:14px; color:var(--ink); }
+  .history-card-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px; }
+  .history-date{ font-family:var(--font-display); font-weight:600; font-size:1.1rem; }
+  .history-actions{ display:flex; gap:8px; }
+  .history-figures{ display:flex; flex-wrap:wrap; gap:18px; font-size:0.9rem; margin-bottom:10px; }
+  .history-figures b{ font-family:var(--font-mono); }
+  .history-figures .gold b{ color:#9a7420; }
+  .history-figures .green b{ color:var(--crop-green); }
+  .history-labours{ display:flex; flex-wrap:wrap; gap:8px; }
+  .labour-tag{ background:var(--paper-cream-dark); padding:5px 12px; border-radius:14px; font-size:0.8rem; font-family:var(--font-mono); }
+  .labour-tag.muted{ color:var(--ink-soft); }
+
+  /* ---------- reports ---------- */
+  .report-table{ width:100%; border-collapse:collapse; margin-top:6px; }
+  .report-table th{ text-align:left; font-family:var(--font-mono); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); padding:8px 10px; border-bottom:2px solid var(--paper-cream-dark); }
+  .report-table td{ padding:10px; border-bottom:1px solid var(--paper-cream-dark); font-size:0.92rem; }
+  .report-table td:nth-child(3), .report-table td:nth-child(4){ font-family:var(--font-mono); }
+
+  .bar-chart{ display:flex; align-items:flex-end; gap:10px; height:180px; padding-top:20px; }
+  .bar-col{ display:flex; flex-direction:column; align-items:center; justify-content:flex-end; flex:1; height:100%; }
+  .bar{ width:100%; max-width:26px; border-radius:5px 5px 2px 2px; background:var(--crop-green); transition:height 0.4s ease; }
+  .bar-negative{ background:var(--diesel-rust); }
+  .bar-label{ font-size:0.65rem; color:var(--ink-soft); margin-top:6px; font-family:var(--font-mono); white-space:nowrap; }
+
+  /* ---------- ledger ticket (signature element) ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(15,10,5,0.65); backdrop-filter:blur(2px);
+    display:flex; align-items:center; justify-content:center; z-index:50; padding:20px;
+  }
+  .ticket{
+    width:340px; max-width:100%; background:var(--white); color:var(--ink); border-radius:6px;
+    padding:26px 24px 22px; position:relative; font-family:var(--font-mono);
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+    background-image:
+      radial-gradient(circle at 4px 4px, rgba(0,0,0,0) 3px, var(--white) 3px);
+  }
+  .ticket::before, .ticket::after{
+    content:""; position:absolute; width:20px; height:20px; background:var(--soil-dark); border-radius:50%;
+    top:50%; transform:translateY(-50%);
+  }
+  .ticket::before{ left:-10px; }
+  .ticket::after{ right:-10px; }
+  .ticket h3{ font-family:var(--font-display); text-align:center; margin:6px 0 16px; font-size:1.1rem; }
+  .ticket-stamp{
+    position:absolute; top:16px; right:18px; font-family:var(--font-display); font-weight:700; font-size:0.72rem;
+    color:var(--crop-green); border:2px solid var(--crop-green); border-radius:50%; width:52px; height:52px;
+    display:flex; align-items:center; justify-content:center; text-align:center; transform:rotate(10deg); line-height:1.1;
+    text-transform:uppercase;
+  }
+  .ticket-row{ display:flex; justify-content:space-between; font-size:0.86rem; padding:4px 0; }
+  .ticket-row.bold{ font-weight:600; font-size:0.92rem; }
+  .ticket-row.owner span:last-child{ color:#9a7420; }
+  .ticket-row.labour span:last-child{ color:var(--crop-green); }
+  .ticket-row.muted{ color:var(--ink-soft); font-style:italic; }
+  .ticket-divider{ border-top:1.5px solid var(--paper-cream-dark); margin:10px 0; }
+  .ticket-divider.dashed{ border-top-style:dashed; }
+  .ticket-sub-title{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); margin-bottom:4px; }
+  .ticket-close{ display:block; margin:18px auto 0; }
+
+  .confirm-box{ background:var(--paper-cream); color:var(--ink); border-radius:16px; padding:26px; width:340px; max-width:100%; }
+  .confirm-box p{ margin:0 0 20px; line-height:1.5; }
+  .confirm-actions{ display:flex; gap:10px; justify-content:flex-end; }
+
+  /* ---------- toast ---------- */
+  #toast-container{ position:fixed; top:20px; right:20px; z-index:100; display:flex; flex-direction:column; gap:8px; }
+  .toast{
+    background:var(--soil-darker); color:var(--paper-cream); border:1px solid var(--wheat-gold); padding:12px 18px;
+    border-radius:10px; font-size:0.88rem; opacity:0; transform:translateY(-8px); transition:all 0.3s ease; max-width:280px;
+  }
+  .toast.show{ opacity:1; transform:translateY(0); }
+  .toast-error{ border-color:var(--diesel-rust); }
+
+  /* ---------- bottom nav (mobile) ---------- */
+  .bottom-nav{ display:none; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .sidebar{ display:none; }
+    main#main-content{ padding:22px 18px 100px; }
+    .bottom-nav{
+      display:flex; position:fixed; bottom:0; left:0; right:0; z-index:40;
+      background:var(--soil-darker); border-top:1px solid rgba(217,167,59,0.2);
+      justify-content:space-around; padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+    }
+    .bottom-nav .nav-link{ flex-direction:column; gap:3px; font-size:0.65rem; padding:6px 4px; text-align:center; width:auto; flex:1; }
+    .bottom-nav .nav-link svg{ width:20px; height:20px; }
+    .hero-content{ max-width:100%; }
+    .hero-machine{ opacity:0.5; width:220px; }
+    .field-row{ grid-template-columns:1fr; }
+  }
+  @media (max-width:480px){
+    .page-header h1{ font-size:1.6rem; }
+    .stat-grid{ grid-template-columns:repeat(2,1fr); }
+    .paper-card{ padding:20px 18px; }
+    .ticket{ width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<svg class="bg-pattern" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="wheatPattern" width="140" height="140" patternUnits="userSpaceOnUse" patternTransform="rotate(8)">
+      <g stroke="#D9A73B" stroke-width="1.3" fill="none" opacity="0.35">
+        <path d="M20 130 L20 40"/>
+        <path d="M20 40 L12 55"/>
+        <path d="M20 48 L28 60"/>
+        <path d="M20 56 L12 68"/>
+        <path d="M20 64 L28 76"/>
+        <path d="M20 72 L12 84"/>
+        <circle cx="20" cy="38" r="3" fill="#D9A73B" stroke="none"/>
+        <path d="M90 130 L90 55"/>
+        <path d="M90 55 L82 68"/>
+        <path d="M90 63 L98 75"/>
+        <path d="M90 71 L82 83"/>
+        <circle cx="90" cy="53" r="3" fill="#D9A73B" stroke="none"/>
+      </g>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#wheatPattern)"/>
+</svg>
+<div class="bg-vignette" aria-hidden="true"></div>
+
+<div id="app-shell" class="loading">
+
+  <!-- Desktop sidebar -->
+  <nav class="sidebar" aria-label="Main navigation">
+    <div class="brand">
+      <span class="brand-mark">Threshing Ledger</span>
+      <span class="brand-sub">Daily field operations</span>
+    </div>
+
+    <button class="nav-link active" data-page="dashboard" onclick="navClick('dashboard')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
+      <span>Dashboard</span>
+    </button>
+    <button class="nav-link" data-page="entry" onclick="navClick('entry')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+      <span>New entry</span>
+    </button>
+    <button class="nav-link" data-page="labours" onclick="navClick('labours')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="18" cy="9" r="2.4"/><path d="M15.5 14.2c2.6.4 4.5 2.4 4.5 5.3"/></svg>
+      <span>Labourers</span>
+    </button>
+    <button class="nav-link" data-page="history" onclick="navClick('history')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+      <span>History</span>
+    </button>
+    <button class="nav-link" data-page="reports" onclick="navClick('reports')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M11 20V4M18 20v-7"/></svg>
+      <span>Reports</span>
+    </button>
+
+    <div class="sidebar-foot">Figures in ₹ · stored only on this device</div>
+  </nav>
+
+  <main id="main-content">
+
+    <!-- ============ DASHBOARD ============ -->
+    <section id="page-dashboard" class="page active">
+      <div class="hero">
+        <svg class="hero-machine" viewBox="0 0 300 160" aria-hidden="true" focusable="false">
+          <g fill="#D9A73B" opacity="0.16">
+            <rect x="40" y="70" width="150" height="55" rx="8"/>
+            <rect x="150" y="40" width="70" height="45" rx="6"/>
+            <rect x="205" y="20" width="10" height="35" rx="3"/>
+            <circle cx="80" cy="135" r="24"/>
+            <circle cx="170" cy="135" r="24"/>
+            <rect x="185" y="55" width="80" height="10" rx="5" transform="rotate(-18 185 55)"/>
+            <rect x="20" y="60" width="30" height="10" rx="4"/>
+          </g>
+        </svg>
+        <div class="hero-content">
+          <span class="eyebrow">Today's field report</span>
+          <h2>Log the day, split it fair, know your numbers.</h2>
+          <p>Record income and diesel spend once a day — the ledger works out the owner's share, the labour share, and what each worker who showed up gets paid.</p>
+          <button class="btn btn-primary" id="btn-quick-new-entry" onclick="navClick('entry')">+ New day entry</button>
+        </div>
+      </div>
+
+      <div id="dashboard-empty" class="paper-card hidden">
+        <h3>No days recorded yet</h3>
+        <p class="empty-hint">Add your labourers first, then log your first day of threshing to start seeing totals here.</p>
+      </div>
+
+      <div id="dashboard-stats" class="stat-grid"></div>
+      <div id="dashboard-recent"></div>
+    </section>
+
+    <!-- ============ NEW ENTRY ============ -->
+    <section id="page-entry" class="page">
+      <div class="page-header">
+        <span class="eyebrow">Daily record</span>
+        <h1 id="entry-form-title">New day entry</h1>
+        <p>Enter today's income and diesel cost, tick who came to work, and the split is calculated automatically.</p>
+      </div>
+
+      <div class="paper-card">
+        <div class="field">
+          <label for="entry-date">Date</label>
+          <input type="date" id="entry-date">
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="entry-income">Total income for the day (₹)</label>
+            <input type="number" id="entry-income" min="0" step="0.01" placeholder="0.00" oninput="updateLivePreview()">
+          </div>
+          <div class="field">
+            <label for="entry-diesel">Diesel spend (₹)</label>
+            <input type="number" id="entry-diesel" min="0" step="0.01" placeholder="0.00" oninput="updateLivePreview()">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Labourers who came today</label>
+          <div id="entry-labour-list"></div>
+        </div>
+
+        <div class="preview-panel">
+          <h4>Split preview</h4>
+          <div class="preview-grid">
+            <div class="preview-item"><span class="l">Gross profit</span><span class="v" id="preview-gross">₹0.00</span></div>
+            <div class="preview-item owner"><span class="l">Owner share (you)</span><span class="v" id="preview-owner">₹0.00</span></div>
+            <div class="preview-item labour"><span class="l">Labour share (total)</span><span class="v" id="preview-labour-total">₹0.00</span></div>
+            <div class="preview-item"><span class="l">Labourers present</span><span class="v" id="preview-count">0</span></div>
+            <div class="preview-item labour"><span class="l">Per labourer</span><span class="v" id="preview-per-labour">—</span></div>
+            <div class="preview-item"><span class="l">Total expenditure</span><span class="v" id="preview-expenditure">₹0.00</span></div>
+          </div>
+          <div class="preview-warning hidden" id="preview-warning"></div>
+        </div>
+
+        <div style="margin-top:22px; display:flex; gap:12px;">
+          <button class="btn btn-primary" onclick="saveEntry()">Save entry</button>
+          <button class="btn btn-ghost" onclick="navClick('entry')">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LABOURERS ============ -->
+    <section id="page-labours" class="page">
+      <div class="page-header">
+        <span class="eyebrow">Master list</span>
+        <h1>Labourers</h1>
+        <p>Keep this list up to date — you'll tick names from here every day to record who worked and split their pay.</p>
+      </div>
+
+      <div class="paper-card">
+        <form class="add-labour-form" onsubmit="event.preventDefault(); addLabourFromForm();">
+          <input type="text" id="new-labour-name" placeholder="Labourer's name">
+          <button type="submit" class="btn btn-primary">+ Add</button>
+        </form>
+        <div id="labours-list-container"></div>
+      </div>
+    </section>
+
+    <!-- ============ HISTORY ============ -->
+    <section id="page-history" class="page">
+      <div class="page-header">
+        <span class="eyebrow">Past days</span>
+        <h1>History</h1>
+        <p>Every saved day, with the full income, diesel and pay split. Tap Edit to correct an entry.</p>
+      </div>
+
+      <div class="paper-card">
+        <div class="history-toolbar">
+          <select id="history-month-filter"><option value="all">All time</option></select>
+        </div>
+        <div id="history-list-container"></div>
+      </div>
+    </section>
+
+    <!-- ============ REPORTS ============ -->
+    <section id="page-reports" class="page">
+      <div class="page-header">
+        <span class="eyebrow">Overview</span>
+        <h1>Reports</h1>
+        <p>Lifetime totals and how much each labourer has earned across every recorded day.</p>
+      </div>
+
+      <div id="reports-summary-container" class="stat-grid"></div>
+
+      <div class="paper-card">
+        <h3>Earnings by labourer</h3>
+        <div id="reports-labour-table-container"></div>
+      </div>
+
+      <div class="paper-card" id="reports-trend-chart-container"></div>
+    </section>
+
+  </main>
+
+  <!-- Mobile bottom nav -->
+  <nav class="bottom-nav" aria-label="Main navigation mobile">
+    <button class="nav-link active" data-page="dashboard" onclick="navClick('dashboard')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-link" data-page="entry" onclick="navClick('entry')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+      <span>Entry</span>
+    </button>
+    <button class="nav-link" data-page="labours" onclick="navClick('labours')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="18" cy="9" r="2.4"/><path d="M15.5 14.2c2.6.4 4.5 2.4 4.5 5.3"/></svg>
+      <span>Labour</span>
+    </button>
+    <button class="nav-link" data-page="history" onclick="navClick('history')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+      <span>History</span>
+    </button>
+    <button class="nav-link" data-page="reports" onclick="navClick('reports')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M11 20V4M18 20v-7"/></svg>
+      <span>Reports</span>
+    </button>
+  </nav>
+
+</div>
+
+<!-- Ledger ticket modal (signature element) -->
+<div class="modal-overlay hidden" id="ticket-modal">
+  <div class="ticket">
+    <div id="ticket-body"></div>
+    <button class="btn btn-primary ticket-close" onclick="closeTicket()">Done</button>
+  </div>
+</div>
+
+<!-- Confirm modal -->
+<div class="modal-overlay hidden" id="confirm-modal">
+  <div class="confirm-box">
+    <p id="confirm-message"></p>
+    <div class="confirm-actions">
+      <button class="btn btn-ghost" style="color:var(--ink); border-color:var(--ink-soft);" onclick="confirmNo()">Cancel</button>
+      <button class="btn btn-primary" style="background:var(--diesel-rust); color:var(--white);" onclick="confirmYes()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script>
+/* ===== Threshing Ledger — app logic ===== */
+
+const STORAGE_KEY_LABOURS = 'labours-list';
+const STORAGE_KEY_RECORDS = 'daily-records';
+
+let labours = [];
+let records = {};
+let originalEditDate = null;
+let confirmCallback = null;
+
+async function safeGet(key) {
+  try {
+    const res = await window.storage.get(key, false);
+    return res ? res.value : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function saveLabours() {
+  try { await window.storage.set(STORAGE_KEY_LABOURS, JSON.stringify(labours), false); }
+  catch (e) { console.error('save labours failed', e); showToast('Could not save labour list.', true); }
+}
+
+async function saveRecords() {
+  try { await window.storage.set(STORAGE_KEY_RECORDS, JSON.stringify(records), false); }
+  catch (e) { console.error('save records failed', e); showToast('Could not save entry.', true); }
+}
+
+async function loadAll() {
+  const l = await safeGet(STORAGE_KEY_LABOURS);
+  labours = l ? JSON.parse(l) : [];
+  const r = await safeGet(STORAGE_KEY_RECORDS);
+  records = r ? JSON.parse(r) : {};
+}
+
+function round2(n) { return Math.round((n + Number.EPSILON) * 100) / 100; }
+
+function fmt(n) {
+  if (isNaN(n)) n = 0;
+  const sign = n < 0 ? '-' : '';
+  n = Math.abs(n);
+  return sign + '\u20B9' + n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function todayStr() {
+  const d = new Date();
+  const off = d.getTimezoneOffset();
+  const local = new Date(d.getTime() - off * 60000);
+  return local.toISOString().slice(0, 10);
+}
+
+function formatDateDisplay(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', weekday: 'short' });
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+}
+
+function computeSplit(income, diesel, presentCount) {
+  const gross = round2(income - diesel);
+  const ownerShare = round2(gross / 2);
+  const labourShareTotal = round2(gross - ownerShare);
+  const perLabour = presentCount > 0 ? round2(labourShareTotal / presentCount) : 0;
+  const totalExpenditure = round2(diesel + labourShareTotal);
+  return { gross, ownerShare, labourShareTotal, perLabour, totalExpenditure };
+}
+
+function overallStats() {
+  const vals = Object.values(records);
+  const totalIncome = vals.reduce((s, r) => s + r.income, 0);
+  const totalDiesel = vals.reduce((s, r) => s + r.diesel, 0);
+  const totalGross = vals.reduce((s, r) => s + r.gross, 0);
+  const totalOwner = vals.reduce((s, r) => s + r.ownerShare, 0);
+  const totalLabourPay = vals.reduce((s, r) => s + r.labourShareTotal, 0);
+  const totalExpenditure = vals.reduce((s, r) => s + r.totalExpenditure, 0);
+  return { days: vals.length, totalIncome, totalDiesel, totalGross, totalOwner, totalLabourPay, totalExpenditure };
+}
+
+function labourStats() {
+  const stats = {};
+  Object.values(records).forEach(r => {
+    (r.present || []).forEach(p => {
+      if (!stats[p.id]) {
+        const current = labours.find(l => l.id === p.id);
+        stats[p.id] = { name: current ? current.name : p.name, days: 0, total: 0 };
+      }
+      stats[p.id].days += 1;
+      stats[p.id].total += r.perLabour;
+    });
+  });
+  return stats;
+}
+
+function goToPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + id);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(n => n.classList.toggle('active', n.dataset.page === id));
+  const main = document.getElementById('main-content');
+  if (main) main.scrollTo(0, 0);
+}
+
+function navClick(page) {
+  if (page === 'entry' && !originalEditDate) {
+    resetEntryFormDefaults();
+  }
+  if (page !== 'entry') {
+    originalEditDate = null;
+  }
+  goToPage(page);
+}
+
+function addLabourFromForm() {
+  const input = document.getElementById('new-labour-name');
+  const name = input.value.trim();
+  if (!name) { showToast('Enter a name before adding.', true); return; }
+  const id = 'lb_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  labours.push({ id, name });
+  input.value = '';
+  saveLabours();
+  renderLabours();
+  renderEntryLabourList();
+  showToast(name + ' added to your labour list.');
+}
+
+function removeLabour(id) {
+  labours = labours.filter(l => l.id !== id);
+  saveLabours();
+  renderLabours();
+  renderEntryLabourList();
+}
+
+function resetEntryFormDefaults() {
+  document.getElementById('entry-form-title').textContent = 'New day entry';
+  document.getElementById('entry-date').value = todayStr();
+  document.getElementById('entry-income').value = '';
+  document.getElementById('entry-diesel').value = '';
+  renderEntryLabourList();
+  document.querySelectorAll('.labour-check').forEach(cb => cb.checked = false);
+  updateLivePreview();
+}
+
+function renderEntryLabourList() {
+  const container = document.getElementById('entry-labour-list');
+  if (!container) return;
+  if (labours.length === 0) {
+    container.innerHTML = '<p class="empty-hint">No labourers added yet. <a href="#" data-action="goto-labours">Add your labour list</a> so you can pick who worked today.</p>';
+    return;
+  }
+  container.innerHTML = labours.map(l => (
+    '<label class="labour-chip">' +
+      '<input type="checkbox" class="labour-check" value="' + escapeHtml(l.id) + '">' +
+      '<span>' + escapeHtml(l.name) + '</span>' +
+    '</label>'
+  )).join('');
+  container.querySelectorAll('.labour-check').forEach(cb => cb.addEventListener('change', updateLivePreview));
+}
+
+function updateLivePreview() {
+  const income = parseFloat(document.getElementById('entry-income').value) || 0;
+  const diesel = parseFloat(document.getElementById('entry-diesel').value) || 0;
+  const count = document.querySelectorAll('.labour-check:checked').length;
+  const calc = computeSplit(income, diesel, count);
+  document.getElementById('preview-gross').textContent = fmt(calc.gross);
+  document.getElementById('preview-owner').textContent = fmt(calc.ownerShare);
+  document.getElementById('preview-labour-total').textContent = fmt(calc.labourShareTotal);
+  document.getElementById('preview-count').textContent = String(count);
+  document.getElementById('preview-per-labour').textContent = count > 0 ? fmt(calc.perLabour) : '\u2014';
+  document.getElementById('preview-expenditure').textContent = fmt(calc.totalExpenditure);
+  const warnEl = document.getElementById('preview-warning');
+  if (calc.gross < 0) {
+    warnEl.textContent = 'Diesel spend is more than income \u2014 this is a loss day.';
+    warnEl.classList.remove('hidden');
+  } else if (count === 0) {
+    warnEl.textContent = 'No labourers selected yet \u2014 the labour share will not be assigned to anyone.';
+    warnEl.classList.remove('hidden');
+  } else {
+    warnEl.classList.add('hidden');
+    warnEl.textContent = '';
+  }
+}
+
+async function saveEntry() {
+  const dateVal = document.getElementById('entry-date').value;
+  const income = parseFloat(document.getElementById('entry-income').value);
+  const diesel = parseFloat(document.getElementById('entry-diesel').value);
+  if (!dateVal || isNaN(income) || isNaN(diesel) || income < 0 || diesel < 0) {
+    showToast('Fill in the date, income and diesel spend before saving.', true);
+    return;
+  }
+  const presentIds = Array.from(document.querySelectorAll('.labour-check:checked')).map(cb => cb.value);
+  const presentSnapshot = presentIds.map(id => {
+    const l = labours.find(x => x.id === id);
+    return { id, name: l ? l.name : 'Unknown' };
+  });
+  const calc = computeSplit(income, diesel, presentSnapshot.length);
+
+  if (originalEditDate && originalEditDate !== dateVal) {
+    delete records[originalEditDate];
+  }
+
+  records[dateVal] = {
+    date: dateVal,
+    income, diesel,
+    present: presentSnapshot,
+    gross: calc.gross,
+    ownerShare: calc.ownerShare,
+    labourShareTotal: calc.labourShareTotal,
+    perLabour: calc.perLabour,
+    totalExpenditure: calc.totalExpenditure,
+    savedAt: Date.now()
+  };
+
+  await saveRecords();
+  originalEditDate = null;
+  showTicket(records[dateVal]);
+  renderDashboard();
+  renderHistory();
+  renderReports();
+  resetEntryFormDefaults();
+}
+
+function loadForEdit(date) {
+  const r = records[date];
+  if (!r) return;
+  originalEditDate = date;
+  goToPage('entry');
+  document.querySelectorAll('.nav-link').forEach(n => n.classList.toggle('active', n.dataset.page === 'entry'));
+  document.getElementById('entry-form-title').textContent = 'Edit day entry';
+  document.getElementById('entry-date').value = r.date;
+  document.getElementById('entry-income').value = r.income;
+  document.getElementById('entry-diesel').value = r.diesel;
+  renderEntryLabourList();
+  const presentIds = r.present.map(p => p.id);
+  document.querySelectorAll('.labour-check').forEach(cb => { cb.checked = presentIds.includes(cb.value); });
+  updateLivePreview();
+}
+
+async function deleteEntry(date) {
+  delete records[date];
+  await saveRecords();
+  renderHistory();
+  renderDashboard();
+  renderReports();
+  showToast('Entry deleted.');
+}
+
+function showConfirm(message, callback) {
+  document.getElementById('confirm-message').textContent = message;
+  confirmCallback = callback;
+  document.getElementById('confirm-modal').classList.remove('hidden');
+}
+function confirmYes() {
+  document.getElementById('confirm-modal').classList.add('hidden');
+  if (confirmCallback) confirmCallback();
+  confirmCallback = null;
+}
+function confirmNo() {
+  document.getElementById('confirm-modal').classList.add('hidden');
+  confirmCallback = null;
+}
+
+function showToast(msg, isError) {
+  const container = document.getElementById('toast-container');
+  const el = document.createElement('div');
+  el.className = 'toast' + (isError ? ' toast-error' : '');
+  el.textContent = msg;
+  container.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 300);
+  }, 3200);
+}
+
+function showTicket(record) {
+  document.getElementById('ticket-body').innerHTML = buildTicketHtml(record);
+  document.getElementById('ticket-modal').classList.remove('hidden');
+}
+function closeTicket() {
+  document.getElementById('ticket-modal').classList.add('hidden');
+}
+function buildTicketHtml(r) {
+  const labourRows = r.present.length
+    ? r.present.map(p => (
+        '<div class="ticket-row"><span>' + escapeHtml(p.name) + '</span><span>' + fmt(r.perLabour) + '</span></div>'
+      )).join('')
+    : '<div class="ticket-row muted"><span>No labourers recorded</span><span></span></div>';
+  return (
+    '<div class="ticket-stamp">Threshed</div>' +
+    '<h3>' + formatDateDisplay(r.date) + '</h3>' +
+    '<div class="ticket-row"><span>Total income</span><span>' + fmt(r.income) + '</span></div>' +
+    '<div class="ticket-row"><span>Diesel spend</span><span>' + fmt(r.diesel) + '</span></div>' +
+    '<div class="ticket-divider"></div>' +
+    '<div class="ticket-row bold"><span>Gross profit</span><span>' + fmt(r.gross) + '</span></div>' +
+    '<div class="ticket-row owner"><span>Owner share</span><span>' + fmt(r.ownerShare) + '</span></div>' +
+    '<div class="ticket-row labour"><span>Labour share (total)</span><span>' + fmt(r.labourShareTotal) + '</span></div>' +
+    '<div class="ticket-divider dashed"></div>' +
+    '<div class="ticket-sub-title">Paid to labourers</div>' +
+    labourRows +
+    '<div class="ticket-divider"></div>' +
+    '<div class="ticket-row bold"><span>Total expenditure</span><span>' + fmt(r.totalExpenditure) + '</span></div>'
+  );
+}
+
+function statCard(label, value, accent) {
+  return '<div class="stat-card' + (accent ? ' ' + accent : '') + '"><span class="stat-label">' + label + '</span><span class="stat-value">' + value + '</span></div>';
+}
+
+function renderDashboard() {
+  const stats = overallStats();
+  const emptyEl = document.getElementById('dashboard-empty');
+  const statsEl = document.getElementById('dashboard-stats');
+  const recentEl = document.getElementById('dashboard-recent');
+  if (stats.days === 0) {
+    emptyEl.classList.remove('hidden');
+    statsEl.innerHTML = '';
+    recentEl.innerHTML = '';
+    return;
+  }
+  emptyEl.classList.add('hidden');
+  statsEl.innerHTML =
+    statCard('Days recorded', String(stats.days), '') +
+    statCard('Lifetime income', fmt(stats.totalIncome), '') +
+    statCard('Owner profit', fmt(stats.totalOwner), 'gold') +
+    statCard('Labour paid', fmt(stats.totalLabourPay), 'green') +
+    statCard('Diesel spent', fmt(stats.totalDiesel), 'rust') +
+    statCard('Active labourers', String(labours.length), '');
+
+  const recent = Object.values(records).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
+  recentEl.innerHTML = '<h3>Recent entries</h3>' + recent.map(r => (
+    '<div class="mini-ticket" data-action="edit-entry" data-id="' + r.date + '">' +
+      '<span class="mini-date">' + formatDateDisplay(r.date) + '</span>' +
+      '<span class="mini-figure">Gross ' + fmt(r.gross) + '</span>' +
+      '<span class="mini-figure gold">Owner ' + fmt(r.ownerShare) + '</span>' +
+      '<span class="mini-figure green">Labour ' + fmt(r.labourShareTotal) + '</span>' +
+    '</div>'
+  )).join('');
+}
+
+function renderLabours() {
+  const container = document.getElementById('labours-list-container');
+  if (labours.length === 0) {
+    container.innerHTML = '<p class="empty-hint">No labourers yet. Add the names of the workers who usually come for threshing \u2014 you will pick from this list every day.</p>';
+    return;
+  }
+  const stats = labourStats();
+  container.innerHTML = labours.map(l => {
+    const s = stats[l.id] || { days: 0, total: 0 };
+    return (
+      '<div class="labour-row">' +
+        '<div class="labour-info">' +
+          '<span class="labour-name">' + escapeHtml(l.name) + '</span>' +
+          '<span class="labour-meta">' + s.days + ' day' + (s.days === 1 ? '' : 's') + ' worked \u00B7 ' + fmt(s.total) + ' earned</span>' +
+        '</div>' +
+        '<button class="btn-icon-danger" data-action="remove-labour" data-id="' + escapeHtml(l.id) + '" aria-label="Remove">\u2715</button>' +
+      '</div>'
+    );
+  }).join('');
+}
+
+function populateHistoryFilterOptions() {
+  const sel = document.getElementById('history-month-filter');
+  if (!sel) return;
+  const current = sel.value || 'all';
+  const months = Array.from(new Set(Object.keys(records).map(d => d.slice(0, 7)))).sort().reverse();
+  sel.innerHTML = '<option value="all">All time</option>' + months.map(m => {
+    const d = new Date(m + '-01T00:00:00');
+    const label = d.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
+    return '<option value="' + m + '">' + label + '</option>';
+  }).join('');
+  if (months.includes(current) || current === 'all') sel.value = current;
+}
+
+function renderHistory() {
+  populateHistoryFilterOptions();
+  const sel = document.getElementById('history-month-filter');
+  const filterVal = sel ? sel.value : 'all';
+  const container = document.getElementById('history-list-container');
+  let list = Object.values(records).sort((a, b) => b.date.localeCompare(a.date));
+  if (filterVal && filterVal !== 'all') {
+    list = list.filter(r => r.date.startsWith(filterVal));
+  }
+  if (list.length === 0) {
+    container.innerHTML = '<p class="empty-hint">No entries recorded for this period.</p>';
+    return;
+  }
+  container.innerHTML = list.map(r => (
+    '<div class="history-card">' +
+      '<div class="history-card-header">' +
+        '<span class="history-date">' + formatDateDisplay(r.date) + '</span>' +
+        '<div class="history-actions">' +
+          '<button class="btn-small" data-action="edit-entry" data-id="' + r.date + '">Edit</button>' +
+          '<button class="btn-small btn-danger" data-action="delete-entry" data-id="' + r.date + '">Delete</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="history-figures">' +
+        '<span>Income <b>' + fmt(r.income) + '</b></span>' +
+        '<span>Diesel <b>' + fmt(r.diesel) + '</b></span>' +
+        '<span>Gross <b>' + fmt(r.gross) + '</b></span>' +
+        '<span class="gold">Owner <b>' + fmt(r.ownerShare) + '</b></span>' +
+        '<span class="green">Labour <b>' + fmt(r.labourShareTotal) + '</b></span>' +
+      '</div>' +
+      '<div class="history-labours">' +
+        (r.present.length
+          ? r.present.map(p => '<span class="labour-tag">' + escapeHtml(p.name) + ' \u00B7 ' + fmt(r.perLabour) + '</span>').join('')
+          : '<span class="labour-tag muted">No labourers recorded</span>') +
+      '</div>' +
+    '</div>'
+  )).join('');
+}
+
+function renderReports() {
+  const stats = overallStats();
+  const summaryEl = document.getElementById('reports-summary-container');
+  const tableEl = document.getElementById('reports-labour-table-container');
+  const chartEl = document.getElementById('reports-trend-chart-container');
+  if (stats.days === 0) {
+    summaryEl.innerHTML = '<p class="empty-hint">Record a few days of threshing to see reports here.</p>';
+    tableEl.innerHTML = '';
+    chartEl.innerHTML = '';
+    return;
+  }
+  summaryEl.innerHTML =
+    statCard('Total income', fmt(stats.totalIncome), '') +
+    statCard('Total diesel', fmt(stats.totalDiesel), 'rust') +
+    statCard('Total gross profit', fmt(stats.totalGross), '') +
+    statCard('Owner profit', fmt(stats.totalOwner), 'gold') +
+    statCard('Labour paid', fmt(stats.totalLabourPay), 'green') +
+    statCard('Total expenditure', fmt(stats.totalExpenditure), '');
+
+  const lstats = labourStats();
+  const rows = Object.keys(lstats).map(id => {
+    const s = lstats[id];
+    const avg = s.days > 0 ? s.total / s.days : 0;
+    return { name: s.name, days: s.days, total: s.total, avg };
+  }).sort((a, b) => b.total - a.total);
+
+  if (rows.length === 0) {
+    tableEl.innerHTML = '<p class="empty-hint">No labour payments recorded yet.</p>';
+  } else {
+    tableEl.innerHTML =
+      '<table class="report-table"><thead><tr><th>Labourer</th><th>Days worked</th><th>Total earned</th><th>Avg / day</th></tr></thead><tbody>' +
+      rows.map(r => (
+        '<tr><td>' + escapeHtml(r.name) + '</td><td>' + r.days + '</td><td>' + fmt(r.total) + '</td><td>' + fmt(r.avg) + '</td></tr>'
+      )).join('') +
+      '</tbody></table>';
+  }
+
+  const sortedDates = Object.keys(records).sort();
+  const last14 = sortedDates.slice(-14);
+  const maxVal = Math.max(1, ...last14.map(d => Math.abs(records[d].gross)));
+  chartEl.innerHTML =
+    '<h3>Gross profit \u2014 last ' + last14.length + ' day' + (last14.length === 1 ? '' : 's') + '</h3>' +
+    '<div class="bar-chart">' +
+    last14.map(d => {
+      const r = records[d];
+      const heightPct = Math.max(4, (Math.abs(r.gross) / maxVal) * 100);
+      const barClass = r.gross < 0 ? 'bar-negative' : 'bar-positive';
+      const shortDate = new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+      return '<div class="bar-col"><div class="bar ' + barClass + '" style="height:' + heightPct + '%" title="' + shortDate + ': ' + fmt(r.gross) + '"></div><span class="bar-label">' + shortDate + '</span></div>';
+    }).join('') +
+    '</div>';
+}
+
+document.addEventListener('click', function (e) {
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  const action = btn.dataset.action;
+  const id = btn.dataset.id;
+  if (action === 'remove-labour') {
+    const l = labours.find(x => x.id === id);
+    if (l) showConfirm('Remove ' + l.name + ' from your labour list? Past records will keep their name.', () => removeLabour(id));
+  } else if (action === 'delete-entry') {
+    e.preventDefault();
+    showConfirm('Delete the entry for ' + formatDateDisplay(id) + '? This cannot be undone.', () => deleteEntry(id));
+  } else if (action === 'edit-entry') {
+    e.preventDefault();
+    loadForEdit(id);
+  } else if (action === 'goto-labours') {
+    e.preventDefault();
+    navClick('labours');
+  }
+});
+
+async function init() {
+  await loadAll();
+  document.getElementById('entry-date').value = todayStr();
+  renderDashboard();
+  renderLabours();
+  renderEntryLabourList();
+  renderHistory();
+  renderReports();
+  updateLivePreview();
+  goToPage('dashboard');
+  const historySel = document.getElementById('history-month-filter');
+  if (historySel) historySel.addEventListener('change', renderHistory);
+  document.getElementById('app-shell').classList.remove('loading');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
+threshing-ledger.html
+Displaying threshing-ledger.html. 
