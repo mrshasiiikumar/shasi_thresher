@@ -409,7 +409,38 @@ Explain
         <h1 id="entry-form-title">New day entry</h1>
         <p>Enter today's income and diesel cost, tick who came to work, and the split is calculated automatically.</p>
       </div>
+    <!-- Farmer Details -->
+<div class="field-row">
+    <div class="field">
+        <label for="farmerName">Farmer Name</label>
+        <input
+            type="text"
+            id="farmerName"
+            placeholder="Enter farmer name"
+        >
+    </div>
 
+    <div class="field">
+        <label for="farmerContact">Contact Number</label>
+        <input
+            type="tel"
+            id="farmerContact"
+            placeholder="Enter contact number"
+            maxlength="10"
+        >
+    </div>
+</div>
+
+<div class="field">
+    <label for="farmerAddress">Farmer Address</label>
+    <input
+        type="text"
+        id="farmerAddress"
+        placeholder="Enter farmer address"
+    >
+</div>
+
+<div style="border-bottom:1px solid var(--paper-cream-dark); margin:20px 0;"></div>
       <div class="paper-card">
         <div class="field">
           <label for="entry-date">Date</label>
